@@ -308,6 +308,10 @@ void auto_init(void)
     extern void auto_init_l3g4200d(void);
     auto_init_l3g4200d();
 #endif
+#ifdef MODULE_L3GD20H
+    extern void auto_init_l3gd20h(void);
+    auto_init_l3gd20h();
+#endif
 #ifdef MODULE_LIS3DH
     extern void auto_init_lis3dh(void);
     auto_init_lis3dh();

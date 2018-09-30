@@ -4,11 +4,9 @@ PSEUDOMODULES += can_mbox
 PSEUDOMODULES += can_pm
 PSEUDOMODULES += can_raw
 PSEUDOMODULES += ccn-lite-utils
-PSEUDOMODULES += cbor_ctime
-PSEUDOMODULES += cbor_float
-PSEUDOMODULES += cbor_semantic_tagging
 PSEUDOMODULES += conn_can_isotp_multi
 PSEUDOMODULES += core_%
+PSEUDOMODULES += ecc_%
 PSEUDOMODULES += emb6_router
 PSEUDOMODULES += event_%
 PSEUDOMODULES += gnrc_ipv6_default
@@ -92,6 +90,11 @@ PSEUDOMODULES += bme280
 PSEUDOMODULES += adc081c
 PSEUDOMODULES += adc101c
 PSEUDOMODULES += adc121c
+
+# include variants of L3GD20H driver as pseudo modules
+PSEUDOMODULES += l3gd20h_i2c
+PSEUDOMODULES += l3gd20h_spi
+PSEUDOMODULES += l3gd20h_full
 
 # include variants of SX127X drivers as pseudo modules
 PSEUDOMODULES += sx1272
