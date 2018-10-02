@@ -53,6 +53,7 @@ static uint16_t _do_measure(const si70xx_t *dev, uint8_t command)
     return ((uint16_t)result[0] << 8) + (result[1] & 0xfc);
 }
 
+#if !MODULE_HTU21D
 /**
  * @brief   Internal helper function that reads the device serial number.
  */
@@ -144,6 +145,7 @@ static int _test_device(const si70xx_t *dev)
 
     return SI70XX_OK;
 }
+#endif /* MODULE_HTU21D */
 
 int si70xx_init(si70xx_t *dev, const si70xx_params_t *params)
 {
@@ -152,13 +154,13 @@ int si70xx_init(si70xx_t *dev, const si70xx_params_t *params)
 
     /* setup the i2c bus */
     i2c_acquire(SI70XX_I2C);
-
+#if !MODULE_HTU21D
     if (_test_device(dev) != SI70XX_OK) {
         DEBUG("[ERROR] No valid device found.\n");
         i2c_release(SI70XX_I2C);
         return SI70XX_ERR_NODEV;
     }
-
+#endif
     /* initialize the peripheral */
     if (i2c_write_byte(SI70XX_I2C, SI70XX_ADDR, SI70XX_RESET, 0) != 0) {
         DEBUG("[ERROR] Cannot reset device.\n");
