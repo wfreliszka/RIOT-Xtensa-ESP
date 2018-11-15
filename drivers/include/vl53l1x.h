@@ -84,7 +84,7 @@
  * :--------------------------------------|:------:|:----:|:--------------:
  * Distance results in mm                 | X      | X    | X
  * Signal rate results in MCPS            |        | X    | X
- * Measurment status information          |        | X    | X
+ * Measurement status informations        |        | X    | X
  * SAUL capability                        | X      | X    | X
  * Distance mode configuration            |        | X    | X
  * Timing budget configuration            |        | X    | X
@@ -92,12 +92,12 @@
  * Region of Interest (ROI) configuration |        | X    | X
  * Data-ready interrupts                  | X      | X    | X
  * Threshold interrupts                   |        |      | X
- * Calbiration functions                  |        |      | X [1]
+ * Calibration functions                  |        |      | X [1]
  * Limit check configuration              |        |      | X [1]
  * Accuracy                               | medium | high | high
  * Size on reference platform in kByte    | 1.3    | 4.2  | 27.9
  *
- * [1] These functions are avalailable by using the ST VL53L1X API directly.
+ * [1] These functions are available by using the ST VL53L1X API directly.
  *
  * @{
  *
