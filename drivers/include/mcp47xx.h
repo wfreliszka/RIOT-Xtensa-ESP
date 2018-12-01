@@ -139,6 +139,7 @@ extern "C"
 #define MCP47XX_BASE_ADDR   (0x60)  /**< MCP47xx I2C slave base address.
                                          Addresses are then in the range from
                                          0x60 to 0x67 */
+/** @} */
 
 /**
  * @name    MCP47xx Channel number
