@@ -73,7 +73,7 @@ void auto_init_mcp47xx(void)
     for (unsigned int i = 0; i < MCP47XX_SAUL_DAC_NUMOF; i++) {
         const mcp47xx_saul_dac_params_t *p = &mcp47xx_saul_dac_params[i];
 
-        LOG_DEBUG("[auto_init_saul] initializing MCP47xx GPIO #%u\n", i);
+        LOG_DEBUG("[auto_init_saul] initializing MCP47xx DAC channel #%u\n", i);
 
         /* check the MCP47xx device index */
         assert(p->dev < MCP47XX_NUM);
@@ -92,4 +92,4 @@ void auto_init_mcp47xx(void)
 }
 #else
 typedef int dont_be_pedantic;
-#endif /* MODULE_MCP47xx && MODULE_SAUL_GPIO */
+#endif /* MODULE_MCP47xx && MODULE_SAUL */
