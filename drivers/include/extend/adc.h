@@ -41,18 +41,33 @@
 extern "C" {
 #endif
 
-#ifndef ADC_EXT_DEV_MASK
 /**
- * @brief   Set device mask in adc_t
+ * @brief   Device ID bit location in #adc_t for extension devices
  */
+#ifndef ADC_EXT_DEV_LOC
+#define ADC_EXT_DEV_LOC         (8*sizeof(adc_t) - 8)
+#endif
+
+/**
+ * @brief   Convert (device, line) tuple to extension #adc_t value
+ */
+#ifndef ADC_EXT_LINE_REV
+#define ADC_EXT_LINE_REV(x,y)   ((~ADC_EXT_THRESH | (x << ADC_EXT_DEV_LOC) | y))
+#endif
+
+/**
+ * @brief   Extension device mask in extension #adc_t
+ */
+#ifndef ADC_EXT_DEV_MASK
 #define ADC_EXT_DEV_MASK (adc_t)((UINT_MAX << ADC_EXT_DEV_LOC) & ADC_EXT_THRESH)
 #endif
 
-#ifndef ADC_EXT_LINE_MASK
 /**
- * @brief   Set line mask in adc_t
+ * @brief   Line mask in extension #adc_t
  */
+#ifndef ADC_EXT_LINE_MASK
 #define ADC_EXT_LINE_MASK (adc_t)(~(UINT_MAX << ADC_EXT_DEV_LOC))
+
 #endif
 
 /**
@@ -103,7 +118,7 @@ typedef struct adc_ext {
 } adc_ext_t;
 
 /**
- * @brief   Find an entry in the extension list by ADC line number
+ * @brief   Find an entry in the extension list by ADC extension line number
  *
  * @param[in]   line    ADC to look up
  * @return      pointer to the list entry
@@ -112,7 +127,7 @@ typedef struct adc_ext {
 adc_ext_t *adc_ext_entry(adc_t line);
 
 /**
- * @brief   Strip encoding from a ADC and return device number
+ * @brief   Strip encoding from a ADC line and return extension device number
  *
  * @param[in]   line    ADC to strip
  * @return      device number
@@ -123,7 +138,7 @@ static inline adc_t adc_ext_dev(adc_t line)
 }
 
 /**
- * @brief   Strip encoding from a ADC and return line number
+ * @brief   Strip encoding from a ADC line and return line number
  *
  * @param[in]   line    ADC to strip
  * @return      line number
