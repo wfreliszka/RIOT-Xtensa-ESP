@@ -67,42 +67,56 @@ typedef unsigned int adc_t;
 #endif
 
 /**
- * @brief   Default ADC line access macro
+ * @brief   Default ADC line access macro for low-level ADC channels provided
+ *          by the MCU
  */
-#ifndef ADC_LINE
-#define ADC_LINE(x)         (x)
+#ifndef ADC_LINE_LL
+#define ADC_LINE_LL(x)      (x)
 #endif
 
 /**
- * @brief   Default number of onboard ADC channels
+ * @brief   Default number of low-level ADC channels provided by the MCU
  *
  * It has to be overridden by board definitions.
  */
-#ifndef ADC_NUMOF
-#define ADC_NUMOF           (0U)
-#endif
-
-/**
- * @brief   Set device ID location in adc_t when using extensions
- */
-#ifndef ADC_EXT_DEV_LOC
-#define ADC_EXT_DEV_LOC     (8*sizeof(adc_t) - 8)
+#ifndef ADC_NUMOF_LL
+#define ADC_NUMOF_LL        (0U)
 #endif
 
 /**
  * @brief   Line numbers greater than ADC_EXT_THRESH use extensions
  */
 #ifndef ADC_EXT_THRESH
-#define ADC_EXT_THRESH    ((adc_t)(UINT_MAX) >> 1)
+#define ADC_EXT_THRESH      ((adc_t)(UINT_MAX) >> 1)
 #endif
 
+#if MODULE_EXTEND_ADC || DOXYGEN
 /**
- * @brief   Convert (device, line) tuple to #adc_t value
+ * @brief   ADC line access macro for ADC channels including ADC extensions
  */
-#ifndef ADC_EXT_LINE
-#define ADC_EXT_LINE(x, y) \
-    (adc_t)(~ADC_EXT_THRESH | (x << ADC_EXT_DEV_LOC) | ADC_LINE(y))
-#endif
+#if MODULE_PERIPH_ADC || DOXYGEN
+#define ADC_LINE(x)         (x < ADC_NUMOF_LL \
+                             ? ADC_LINE_LL(x) \
+                             : ADC_EXT_LINE(x - ADC_NUMOF_LL))
+#else
+#define ADC_LINE(x)         (ADC_EXT_LINE(x))
+#endif /* !MODULE_PERIPH_ADC || DOXYGEN */
+
+/**
+ * @brief   Number of ADC channels including ADC extensions
+ */
+#if MODULE_PERIPH_ADC || DOXYGEN
+#define ADC_NUMOF           (ADC_NUMOF_LL + ADC_EXT_NUMOF)
+#else
+#define ADC_NUMOF           (ADC_EXT_NUMOF)
+#endif /* MODULE_PERIPH_ADC || DOXYGEN */
+
+#else /* MODULE_EXTEND_ADC || DOXYGEN */
+
+#define ADC_LINE(x)         (ADC_LINE_LL(x))
+#define ADC_NUMOF           (ADC_NUMOF_LL)
+
+#endif /* MODULE_EXTEND_ADC || DOXYGEN */
 
 /**
  * @brief   Possible ADC resolution settings
@@ -119,7 +133,7 @@ typedef enum {
 #endif
 
 /**
- * @brief   Low-level versions of the ADC functions
+ * @name   Low-level versions of the ADC functions
  *
  * These are for cpu adc.c implementation and should not be called directly.
  * @{
@@ -131,7 +145,7 @@ unsigned int adc_channels_ll(void);
 
 #if MODULE_EXTEND_ADC || DOXYGEN
 /**
- * @brief   Redirecting versions of the ADC functions
+ * @name   Redirecting versions of the ADC functions
  *
  * These are for the extension interface and should not be called directly.
  * @{
@@ -213,7 +227,7 @@ static inline unsigned int adc_channels(adc_t line)
     }
 #endif
 #if defined(MODULE_PERIPH_ADC)
-    return ADC_NUMOF;
+    return ADC_NUMOF_LL;
 #endif
     return 0;
 }
