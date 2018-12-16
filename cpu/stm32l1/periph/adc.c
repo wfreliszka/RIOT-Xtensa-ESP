@@ -104,7 +104,7 @@ static void adc_set_sample_time(uint8_t time)
 int adc_init_ll(adc_t line)
 {
     /* check if the line is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 

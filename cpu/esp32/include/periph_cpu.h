@@ -193,7 +193,7 @@ typedef enum {
  * used as ADC channels on the board. In this case, an empy list hast to be
  * defined which just contains the curly braces.
  *
- * ADC_NUMOF is determined automatically from the ADC_GPIOS definition.
+ * ADC_NUMOF_LL is determined automatically from the ADC_GPIOS definition.
  *
  * @note As long as the GPIOs listed in ADC_GPIOS are not initialized
  * as ADC channels with the *adc_init* function, they can be used for other

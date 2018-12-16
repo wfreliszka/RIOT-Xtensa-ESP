@@ -161,7 +161,7 @@ int adc_init_ll(adc_t line)
 
 int adc_sample_ll(adc_t line, adc_res_t res)
 {
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         DEBUG("adc: line arg not applicable\n");
         return -1;
     }

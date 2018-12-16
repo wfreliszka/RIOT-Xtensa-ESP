@@ -31,11 +31,11 @@
 #include "common.h"
 #include "sdk/sdk.h"
 
-#if defined(ADC_NUMOF) && ADC_NUMOF > 0
+#if MODULE_PERIPH_ADC
 
 int adc_init_ll(adc_t line)
 {
-    CHECK_PARAM_RET (line < ADC_NUMOF, -1)
+    CHECK_PARAM_RET (line < ADC_NUMOF_LL, -1)
 
     /* no special inialization needed */
     return 0;
@@ -44,7 +44,7 @@ int adc_init_ll(adc_t line)
 
 int adc_sample_ll(adc_t line, adc_res_t res)
 {
-    CHECK_PARAM_RET (line < ADC_NUMOF, -1)
+    CHECK_PARAM_RET (line < ADC_NUMOF_LL, -1)
     CHECK_PARAM_RET (res == ADC_RES_10BIT, -1)
 
     #ifdef MODULE_ESP_SDK

@@ -83,7 +83,7 @@ static inline void done(void)
 int adc_init_ll(adc_t line)
 {
     /* make sure the given ADC line is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 

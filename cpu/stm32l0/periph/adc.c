@@ -90,7 +90,7 @@ static void _disable_adc(void)
 int adc_init_ll(adc_t line)
 {
     /* make sure the given line is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 

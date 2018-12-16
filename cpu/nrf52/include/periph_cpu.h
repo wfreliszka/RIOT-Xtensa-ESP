@@ -48,7 +48,7 @@ extern "C" {
 /**
  * @brief   The nRF52 family of CPUs provides a fixed number of 9 ADC lines
  */
-#define ADC_NUMOF           (9U)
+#define ADC_NUMOF_LL        (9U)
 
 /**
  * @brief   nRF52 specific naming of ADC lines (for convenience)

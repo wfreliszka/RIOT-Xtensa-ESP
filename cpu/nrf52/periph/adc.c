@@ -69,7 +69,7 @@ static inline void done(void)
 
 int adc_init_ll(adc_t line)
 {
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 
@@ -105,7 +105,7 @@ int adc_init_ll(adc_t line)
 
 int adc_sample_ll(adc_t line, adc_res_t res)
 {
-    assert(line < ADC_NUMOF);
+    assert(line < ADC_NUMOF_LL);
 
     /* check if resolution is valid */
     if (res > 2) {

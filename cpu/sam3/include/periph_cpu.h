@@ -87,7 +87,7 @@ typedef uint32_t gpio_t;
  * so this ADC configuration is valid for all boards using this CPU. No need for
  * any board specific configuration.
  */
-#define ADC_NUMOF           (16U)
+#define ADC_NUMOF_LL        (16U)
 
 /**
  * @brief   DAC configuration, valid for all boards using this CPU

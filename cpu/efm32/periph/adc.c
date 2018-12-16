@@ -33,7 +33,7 @@ static mutex_t adc_lock[ADC_DEV_NUMOF];
 int adc_init_ll(adc_t line)
 {
     /* check if line is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 

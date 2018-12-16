@@ -36,7 +36,7 @@ static cc2538_soc_adc_t *soc_adc = (cc2538_soc_adc_t *)SOC_ADC_BASE;
 
 int adc_init_ll(adc_t line)
 {
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         DEBUG("adc_init: invalid ADC line (%d)!\n", line);
         return -1;
     }
@@ -54,7 +54,7 @@ int adc_init_ll(adc_t line)
 int adc_sample_ll(adc_t line, adc_res_t res)
 {
     /* check if adc line valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         DEBUG("adc_sample: invalid ADC line!\n");
         return -1;
     }

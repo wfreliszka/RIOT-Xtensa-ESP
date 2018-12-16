@@ -70,7 +70,7 @@ int adc_init_ll(adc_t line)
     uint32_t clk_div = 2;
 
     /* check if the line is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 
@@ -130,7 +130,7 @@ int adc_sample_ll(adc_t line, adc_res_t res)
     int sample;
 
     /* check if the linenel is valid */
-    if (line >= ADC_NUMOF) {
+    if (line >= ADC_NUMOF_LL) {
         return -1;
     }
 
