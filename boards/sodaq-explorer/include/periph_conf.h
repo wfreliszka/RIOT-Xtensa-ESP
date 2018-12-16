@@ -168,7 +168,7 @@ static const adc_conf_chan_t adc_config[] = {
 };
 
 #define ADC_0_CHANNELS                     (7U)
-#define ADC_NUMOF                          ADC_0_CHANNELS
+#define ADC_NUMOF_LL                       ADC_0_CHANNELS
 /** @} */
 
 /**

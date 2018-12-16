@@ -237,7 +237,7 @@ static const i2c_conf_t i2c_config[] = {
     { GPIO_UNDEF,          17 },  \
 }
 
-#define ADC_NUMOF           (5)
+#define ADC_NUMOF_LL        (5)
 /** @} */
 
 /**

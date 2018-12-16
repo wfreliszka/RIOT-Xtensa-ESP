@@ -284,7 +284,7 @@ static const i2c_conf_t i2c_config[] = {
  *
  * @{
  */
-#define ADC_NUMOF          (6U)
+#define ADC_NUMOF_LL       (6U)
 #define ADC_CONFIG {             \
     {GPIO_PIN(PORT_A, 0), 0, 0}, \
     {GPIO_PIN(PORT_A, 1), 0, 1}, \

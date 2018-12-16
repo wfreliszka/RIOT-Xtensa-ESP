@@ -139,7 +139,7 @@ static const adc_conf_t adc_config[] = {
     /* internal: DCDC divided battery level */
     [ 2] = { .dev = ADC0, .pin = GPIO_UNDEF, .chan = 23, .avg = ADC_AVG_MAX },
 };
-#define ADC_NUMOF           (sizeof(adc_config) / sizeof(adc_config[0]))
+#define ADC_NUMOF_LL        (sizeof(adc_config) / sizeof(adc_config[0]))
 /*
  * KW41Z ADC reference settings:
  * 0: VREFH external pin or VREF_OUT 1.2 V signal (if VREF module is enabled)

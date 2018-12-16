@@ -163,7 +163,7 @@ static const i2c_conf_t i2c_config[] = {
  * @name    ADC configuration
  * @{
  */
-#define ADC_NUMOF           (0)
+#define ADC_NUMOF_LL        (0)
 /** @} */
 
 #ifdef __cplusplus

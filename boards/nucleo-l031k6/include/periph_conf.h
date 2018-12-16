@@ -164,7 +164,7 @@ static const spi_conf_t spi_config[] = {
     { GPIO_PIN(PORT_A, 6), 6 },  /* Pin A5 */  \
     { GPIO_PIN(PORT_A, 7), 7 },  /* Pin A6 */  \
 }
-#define ADC_NUMOF           (7U)
+#define ADC_NUMOF_LL        (7U)
 /** @} */
 
 /**

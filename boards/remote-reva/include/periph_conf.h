@@ -82,7 +82,7 @@ static const adc_conf_t adc_config[] = {
     GPIO_PIN(0, 2), /**< GPIO_PA2 = ADC3_PIN */
 };
 
-#define ADC_NUMOF           (sizeof(adc_config) / sizeof(adc_config[0]))
+#define ADC_NUMOF_LL        (sizeof(adc_config) / sizeof(adc_config[0]))
 /** @} */
 
 

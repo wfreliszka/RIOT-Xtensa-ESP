@@ -36,7 +36,7 @@ extern "C" {
  * ESP8266 provides one ADC pin that is broken out on all boards.
  * @{
  */
-#define ADC_NUMOF   1   /**< number of ADC channels */
+#define ADC_NUMOF_LL    (1)   /**< number of ADC channels */
 /** @} */
 
 

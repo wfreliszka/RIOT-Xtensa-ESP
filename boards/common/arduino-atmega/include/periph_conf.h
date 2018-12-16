@@ -161,9 +161,9 @@ extern "C" {
  * @{
  */
 #if defined (CPU_ATMEGA328P) || defined (CPU_ATMEGA1281)
-#define ADC_NUMOF       (8U)
+#define ADC_NUMOF_LL    (8U)
 #elif defined (CPU_ATMEGA2560)
-#define ADC_NUMOF       (16U)
+#define ADC_NUMOF_LL    (16U)
 #endif
 /** @} */
 

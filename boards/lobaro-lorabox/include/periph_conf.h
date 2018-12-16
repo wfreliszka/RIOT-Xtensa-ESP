@@ -214,7 +214,7 @@ static const i2c_conf_t i2c_config[] = {
  * @name   ADC configuration
  * @{
  */
-#define ADC_NUMOF           (0U)
+#define ADC_NUMOF_LL        (0U)
 /** @} */
 
 /**

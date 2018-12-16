@@ -52,9 +52,9 @@ extern "C" {
  * The number of GPIOs that are declared as ADC channels is determined from
  * the ADC_GPIOS definition.
  *
- * @note ADC_NUMOF definition must not be changed.
+ * @note ADC_NUMOF_LL definition must not be changed.
  */
-#define ADC_NUMOF   (adc_chn_num)
+#define ADC_NUMOF_LL    (adc_chn_num)
 /** @} */
 
 /**

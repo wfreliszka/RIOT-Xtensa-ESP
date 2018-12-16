@@ -60,7 +60,7 @@ extern "C" {
  * @name ADC configuration
  * @{
  */
-#define ADC_NUMOF           (0)
+#define ADC_NUMOF_LL        (0)
 /** @} */
 
 /**

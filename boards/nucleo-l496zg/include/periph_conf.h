@@ -208,7 +208,7 @@ static const spi_conf_t spi_config[] = {
  * @name    ADC configuration
  * @{
  */
-#define ADC_NUMOF           (0)
+#define ADC_NUMOF_LL        (0)
 /** @} */
 
 /**

@@ -65,7 +65,7 @@ extern "C" {
     { GPIO_UNDEF        , 0, 16 },  \
     { GPIO_UNDEF        , 0, 17 } }
 
-#define ADC_NUMOF           (3)
+#define ADC_NUMOF_LL        (3)
 /** @} */
 
 /**

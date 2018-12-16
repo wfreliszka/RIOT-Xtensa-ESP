@@ -116,7 +116,7 @@ extern "C" {
  * @name     ADC configuration
  * @{
  */
-#define ADC_NUMOF           (8U)
+#define ADC_NUMOF_LL        (8U)
 /** @} */
 
 #ifdef __cplusplus

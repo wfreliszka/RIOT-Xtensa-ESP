@@ -202,7 +202,7 @@ static const adc_conf_t adc_config[] = {
     [16] = { .dev = ADC1, .pin = GPIO_PIN(PORT_C, 11), .chan =  7, .avg = ADC_AVG_MAX },
 };
 
-#define ADC_NUMOF           (sizeof(adc_config) / sizeof(adc_config[0]))
+#define ADC_NUMOF_LL        (sizeof(adc_config) / sizeof(adc_config[0]))
 /*
  * K60D ADC reference settings:
  * 0: VREFH/VREFL external pin pair

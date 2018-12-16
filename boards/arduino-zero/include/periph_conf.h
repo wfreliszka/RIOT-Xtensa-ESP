@@ -172,7 +172,7 @@ static const pwm_conf_t pwm_config[] = {
  * @name ADC configuration
  * @{
  */
-#define ADC_NUMOF           (0)
+#define ADC_NUMOF_LL        (0)
 /** @} */
 
 /**

@@ -78,7 +78,7 @@ static const adc_chan_conf_t adc_channel_config[] = {
 };
 
 #define ADC_DEV_NUMOF       PERIPH_NUMOF(adc_config)
-#define ADC_NUMOF           PERIPH_NUMOF(adc_channel_config)
+#define ADC_NUMOF_LL        PERIPH_NUMOF(adc_channel_config)
 /** @} */
 
 /**

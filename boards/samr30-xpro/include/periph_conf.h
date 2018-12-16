@@ -129,7 +129,7 @@ static const i2c_conf_t i2c_config[] = {
  * @name ADC Configuration
  * @{
  */
-#define ADC_NUMOF                               (5U)
+#define ADC_NUMOF_LL                            (5U)
 
 /* ADC 0 Default values */
 #define ADC_0_CLK_SOURCE                        0 /* GCLK_GENERATOR_0 */

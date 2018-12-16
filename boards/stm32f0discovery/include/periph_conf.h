@@ -121,7 +121,7 @@ static const uart_conf_t uart_config[] = {
     { GPIO_PIN(PORT_C, 5), 15 } \
 }
 
-#define ADC_NUMOF           (6)
+#define ADC_NUMOF_LL        (6)
 /** @} */
 
 /**

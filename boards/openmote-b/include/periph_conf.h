@@ -83,7 +83,7 @@ static const adc_conf_t adc_config[] = {
 
 };
 
-#define ADC_NUMOF           (sizeof(adc_config) / sizeof(adc_config[0]))
+#define ADC_NUMOF_LL        (sizeof(adc_config) / sizeof(adc_config[0]))
 /** @} */
 
 /**

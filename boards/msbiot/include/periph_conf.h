@@ -86,7 +86,7 @@ static const pwm_conf_t pwm_config[] = {
     {GPIO_PIN(PORT_B, 1), 0, 9}  \
 }
 
-#define ADC_NUMOF           (2)
+#define ADC_NUMOF_LL        (2)
 /** @} */
 
 /**
