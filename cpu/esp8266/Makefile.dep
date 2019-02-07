@@ -48,6 +48,10 @@ ifneq (, $(filter shell, $(USEMODULE)))
     USEMODULE += xtimer
 endif
 
+ifneq (, $(filter stdio_uart, $(USEMODULE)))
+    USEMODULE += xtimer
+endif
+
 ifneq (, $(filter xtimer, $(USEMODULE)))
     USEMODULE += newlib_syscalls_default
 endif
@@ -55,8 +59,4 @@ endif
 ifneq (, $(filter vfs, $(USEMODULE)))
     USEMODULE += newlib_syscalls_default
     USEMODULE += xtimer
-endif
-
-ifneq (, $(filter newlib_syscalls_default, $(USEMODULE)))
-    USEMODULE += stdio_uart
 endif
