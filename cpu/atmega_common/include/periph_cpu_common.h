@@ -34,8 +34,8 @@ extern "C" {
  * @brief   Overwrite the default gpio_t type definition
  * @{
  */
-#define HAVE_GPIO_T
-typedef uint8_t gpio_t;
+#define HAVE_GPIO_PIN_T
+typedef uint8_t gpio_pin_t;
 /** @} */
 #endif
 
@@ -47,7 +47,7 @@ typedef uint8_t gpio_t;
 /**
  * @brief   Define a CPU specific GPIO pin generator macro
  */
-#define GPIO_PIN(x, y)          ((x << 4) | y)
+#define GPIO_CPU_PIN(x, y)          ((x << 4) | y)
 
 /**
  * @brief   Override the GPIO flanks
@@ -141,7 +141,7 @@ typedef enum {
  */
 typedef struct {
     mini_timer_t *dev;                  /**< Timer used */
-    gpio_t pin_ch[2];                   /**< Output Pins */
+    gpio_pin_t pin_ch[2];               /**< Output Pins */
     timer_div_t div;                    /**< Timer divider mask */
 } pwm_conf_t;
 /** @} */

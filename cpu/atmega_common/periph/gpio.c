@@ -170,7 +170,7 @@ static gpio_isr_ctx_pcint_t pcint_config[8 * PCINT_NUM_BANKS];
 /**
  * @brief     Extract the pin number of the given pin
  */
-static inline uint8_t _pin_num(gpio_t pin)
+static inline uint8_t _pin_num(gpio_pin_t pin)
 {
     return (pin & 0x0f);
 }
@@ -178,7 +178,7 @@ static inline uint8_t _pin_num(gpio_t pin)
 /**
  * @brief     Extract the port number of the given pin
  */
-static inline uint8_t _port_num(gpio_t pin)
+static inline uint8_t _port_num(gpio_pin_t pin)
 {
     return (pin >> 4) & 0x0f;
 }
@@ -186,7 +186,7 @@ static inline uint8_t _port_num(gpio_t pin)
 /**
  * @brief     Generate the PORTx address of the give pin.
  */
-static inline uint16_t _port_addr(gpio_t pin)
+static inline uint16_t _port_addr(gpio_pin_t pin)
 {
     uint8_t port_num = _port_num(pin);
     uint16_t port_addr = port_num * GPIO_OFFSET_PIN_PIN;
@@ -205,7 +205,7 @@ static inline uint16_t _port_addr(gpio_t pin)
 /**
  * @brief     Generate the DDRx address of the given pin
  */
-static inline uint16_t _ddr_addr(gpio_t pin)
+static inline uint16_t _ddr_addr(gpio_pin_t pin)
 {
     return (_port_addr(pin) - 0x01);
 }
@@ -213,13 +213,14 @@ static inline uint16_t _ddr_addr(gpio_t pin)
 /**
  * @brief     Generate the PINx address of the given pin.
  */
-static inline uint16_t _pin_addr(gpio_t pin)
+static inline uint16_t _pin_addr(gpio_pin_t pin)
 {
     return (_port_addr(pin) - 0x02);
 }
 
-int gpio_init(gpio_t pin, gpio_mode_t mode)
+int gpio_cpu_init(void *dev, gpio_pin_t pin, gpio_mode_t mode)
 {
+    (void)dev;
     uint8_t pin_mask = (1 << _pin_num(pin));
 
     switch (mode) {
@@ -241,46 +242,49 @@ int gpio_init(gpio_t pin, gpio_mode_t mode)
     return 0;
 }
 
-int gpio_read(gpio_t pin)
+int gpio_cpu_read(void *dev, gpio_pin_t pin)
 {
+    (void)dev;
     return (_SFR_MEM8(_pin_addr(pin)) & (1 << _pin_num(pin)));
 }
 
-void gpio_set(gpio_t pin)
+void gpio_cpu_set(void *dev, gpio_pin_t pin)
 {
-    _SFR_MEM8(_port_addr(pin)) |= (1 << _pin_num(pin));
+     (void)dev;
+   _SFR_MEM8(_port_addr(pin)) |= (1 << _pin_num(pin));
 }
 
-void gpio_clear(gpio_t pin)
+void gpio_cpu_clear(void *dev, gpio_pin_t pin)
 {
+    (void)dev;
     _SFR_MEM8(_port_addr(pin)) &= ~(1 << _pin_num(pin));
 }
 
-void gpio_toggle(gpio_t pin)
+void gpio_cpu_toggle(void *dev, gpio_pin_t pin)
 {
-    if (gpio_read(pin)) {
-        gpio_clear(pin);
+    if (gpio_cpu_read(dev, pin)) {
+        gpio_cpu_clear(dev, pin);
     }
     else {
-        gpio_set(pin);
+        gpio_cpu_set(dev, pin);
     }
 }
 
-void gpio_write(gpio_t pin, int value)
+void gpio_cpu_write(void *dev, gpio_pin_t pin, int value)
 {
     if (value) {
-        gpio_set(pin);
+        gpio_cpu_set(dev, pin);
     }
     else {
-        gpio_clear(pin);
+        gpio_cpu_clear(dev, pin);
     }
 }
 
 #ifdef MODULE_PERIPH_GPIO_IRQ
-static inline int8_t _int_num(gpio_t pin)
+static inline int8_t _int_num(gpio_pin_t pin)
 {
     uint8_t num;
-    const gpio_t ext_ints[GPIO_EXT_INT_NUMOF] = CPU_ATMEGA_EXT_INTS;
+    const gpio_pin_t ext_ints[GPIO_EXT_INT_NUMOF] = CPU_ATMEGA_EXT_INTS;
 
     /* find pin in ext_ints array to get the interrupt number */
     for (num = 0; num < GPIO_EXT_INT_NUMOF; num++) {
@@ -292,7 +296,7 @@ static inline int8_t _int_num(gpio_t pin)
     return -1;
 }
 
-int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
+int gpio_cpu_init_int(void *dev, gpio_pin_t pin, gpio_mode_t mode, gpio_flank_t flank,
                   gpio_cb_t cb, void *arg)
 {
     int8_t int_num = _int_num(pin);
@@ -332,7 +336,7 @@ int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
         pcint_config[offset].cb = cb;
 
         /* init gpio */
-        gpio_init(pin, mode);
+        gpio_cpu_init(pin, mode);
         /* configure pcint */
         cli();
         switch (bank) {
@@ -385,7 +389,7 @@ int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
         return -1;
     }
 
-    gpio_init(pin, mode);
+    gpio_cpu_init(dev, pin, mode);
 
     /* clear global interrupt flag */
     cli();
@@ -416,14 +420,16 @@ int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
     return 0;
 }
 
-void gpio_irq_enable(gpio_t pin)
+void gpio_cpu_irq_enable(void *dev, gpio_pin_t pin)
 {
+    (void)dev;
     EIFR |= (1 << _int_num(pin));
     EIMSK |= (1 << _int_num(pin));
 }
 
-void gpio_irq_disable(gpio_t pin)
+void gpio_cpu_irq_disable(void *dev, gpio_pin_t pin)
 {
+    (void)dev;
     EIMSK &= ~(1 << _int_num(pin));
 }
 
