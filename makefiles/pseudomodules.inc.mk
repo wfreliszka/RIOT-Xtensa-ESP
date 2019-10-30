@@ -112,6 +112,9 @@ PSEUDOMODULES += cc1100
 PSEUDOMODULES += cc1100e
 PSEUDOMODULES += cc1101
 
+# periph extention interface pseudomodules
+PSEUDOMODULES += extend_%
+
 # include variants of mrf24j40 drivers as pseudo modules
 PSEUDOMODULES += mrf24j40m%
 

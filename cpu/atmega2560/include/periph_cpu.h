@@ -45,6 +45,23 @@ enum {
 };
 
 /**
+ * @brief   Available ports on the ATmega2560 familiy as GPIO device definitions
+ */
+static const gpio_dev_t gpio_cpu_dev[] = {
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x22 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x25 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x28 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x2b },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x2e },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x31 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x34 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x102 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x105 },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x10b },
+    { .driver = &gpio_cpu_driver, .dev = (void *)0x10e },
+};
+
+/**
  * @brief   Available external interrupt pins on the ATmega2560 family
  *
  * In order of their interrupt number.

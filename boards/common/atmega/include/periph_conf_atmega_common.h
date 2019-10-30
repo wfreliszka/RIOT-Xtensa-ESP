@@ -319,16 +319,16 @@ extern "C" {
  */
 #ifndef PWM_NUMOF
 #if defined(CPU_ATMEGA328P)
-    #define PWM_PINS_CH0 { GPIO_PIN(PORT_D, 6), GPIO_PIN(PORT_D, 5) }
-    #define PWM_PINS_CH1 { GPIO_PIN(PORT_B, 3), GPIO_PIN(PORT_D, 3) }
+    #define PWM_PINS_CH0 { GPIO_CPU_PIN(PORT_D, 6), GPIO_CPU_PIN(PORT_D, 5) }
+    #define PWM_PINS_CH1 { GPIO_CPU_PIN(PORT_B, 3), GPIO_CPU_PIN(PORT_D, 3) }
 #elif defined(CPU_ATMEGA1281)
-    #define PWM_PINS_CH0 { GPIO_PIN(PORT_B, 7), GPIO_PIN(PORT_G, 5) }
-    #define PWM_PINS_CH1 { GPIO_PIN(PORT_B, 4), GPIO_UNDEF }
+    #define PWM_PINS_CH0 { GPIO_CPU_PIN(PORT_B, 7), GPIO_CPU_PIN(PORT_G, 5) }
+    #define PWM_PINS_CH1 { GPIO_CPU_PIN(PORT_B, 4), GPIO_UNDEF }
 #elif defined(CPU_ATMEGA2560)
-    #define PWM_PINS_CH0 { GPIO_PIN(PORT_B, 7), GPIO_PIN(PORT_G, 5) }
-    #define PWM_PINS_CH1 { GPIO_PIN(PORT_B, 4), GPIO_PIN(PORT_H, 6) }
+    #define PWM_PINS_CH0 { GPIO_CPU_PIN(PORT_B, 7), GPIO_CPU_PIN(PORT_G, 5) }
+    #define PWM_PINS_CH1 { GPIO_CPU_PIN(PORT_B, 4), GPIO_CPU_PIN(PORT_H, 6) }
 #elif defined(CPU_ATMEGA32U4)
-    #define PWM_PINS_CH0 { GPIO_PIN(PORT_B, 7), GPIO_PIN(PORT_D, 0) }
+    #define PWM_PINS_CH0 { GPIO_CPU_PIN(PORT_B, 7), GPIO_CPU_PIN(PORT_D, 0) }
 #else
     #define PWM_NUMOF           (0U)
 #endif

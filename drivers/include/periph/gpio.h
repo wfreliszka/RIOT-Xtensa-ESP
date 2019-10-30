@@ -72,33 +72,51 @@
 
 #include <limits.h>
 
-#include "periph_cpu.h"
-#include "periph_conf.h"
+#include "gpio_arch.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef HAVE_GPIO_T
+#ifndef HAVE_GPIO_PIN_T
 /**
- * @brief   GPIO type identifier
+ * @brief   GPIO pin type identifier
  */
-typedef unsigned int gpio_t;
+typedef unsigned int gpio_pin_t;
 #endif
 
-#ifndef GPIO_PIN
 /**
- * @brief   Convert (port, pin) tuple to @c gpio_t value
+ * @brief   Convert (port, pin) tuple to @c gpio_cpu_t value
  */
-/* Default GPIO macro maps port-pin tuples to the pin value */
-#define GPIO_PIN(x,y)       ((gpio_t)((x & 0) | y))
+/* Default GPIO macro maps port-pin tuples to the CPU pin value */
+#ifndef GPIO_CPU_PIN
+#define GPIO_CPU_PIN(x,y)   ((gpio_t){ .dev = &gpio_cpu_dev[x], .num = y } )
 #endif
 
+/**
+ * @brief   GPIO pin not defined for CPU pins
+ */
+#ifndef GPIO_CPU_UNDEF
+#define GPIO_CPU_UNDEF      ((gpio_pin_t)(UINT_MAX))
+#endif
+
+/**
+ * @brief   GPIO pin not defined for all types of pins
+ *
+ * In case the GPIO extension API is used, it defines the GPIO pin as not
+ * defined.
+ */
 #ifndef GPIO_UNDEF
+#define GPIO_UNDEF          { .dev = NULL, .num = GPIO_CPU_UNDEF }
+#endif
+
 /**
- * @brief   GPIO pin not defined
+ * @brief   Convert (port, pin) tuple to gpio_t structure
+ *
+ * @note At the moment it simply maps to a CPU GPIO.
  */
-#define GPIO_UNDEF          ((gpio_t)(UINT_MAX))
+#ifndef GPIO_PIN
+#define GPIO_PIN(x, y)      (GPIO_CPU_PIN(x,y))
 #endif
 
 /**
@@ -151,6 +169,130 @@ typedef struct {
 #endif
 
 /**
+ * @brief   GPIO device driver type
+ *
+ * Defines a structure to hold the driver interface to function mapping.
+ *
+ * TODO Document
+ */
+typedef struct gpio_driver {
+    /**
+     * @brief   Callback typedef for gpio_init
+     *
+     * @see @ref #gpio_init
+     */
+    int (*init)(void *dev, gpio_pin_t pin, gpio_mode_t mode);
+
+#ifdef MODULE_PERIPH_GPIO_IRQ
+
+    /**
+     * @brief   Callback typedef for gpio_init_int
+     *
+     * @see @ref #gpio_init_int
+     */
+    int (*init_int)(void *dev, gpio_pin_t pin, gpio_mode_t mode,
+                    gpio_flank_t flank, gpio_cb_t cb, void *arg);
+
+    /**
+     * @brief   Callback typedef for gpio_irq_enable
+     *
+     * @see @ref #gpio_irq_enable
+     */
+    void (*irq_enable)(void *dev, gpio_pin_t pin);
+
+    /**
+     * @brief   Callback typedef for gpio_irq_disable
+     *
+     * @see @ref #gpio_irq_disable
+     */
+    void (*irq_disable)(void *dev, gpio_pin_t pin);
+
+#endif /* MODULE_PERIPH_GPIO_IRQ */
+
+    /**
+     * @brief   Callback typedef for gpio_read
+     *
+     * @see @ref #gpio_read
+     */
+    int (*read)(void *dev, gpio_pin_t pin);
+
+    /**
+     * @brief   Callback typedef for gpio_set
+     *
+     * @see @ref #gpio_set
+     */
+    void (*set)(void *dev, gpio_pin_t pin);
+
+    /**
+     * @brief   Callback typedef for gpio_clear
+     *
+     * @see @ref #gpio_clear
+     */
+    void (*clear)(void *dev, gpio_pin_t pin);
+
+    /**
+     * @brief   Callback typedef for gpio_toggle
+     *
+     * @see @ref #gpio_toggle
+     */
+    void (*toggle)(void *dev, gpio_pin_t pin);
+
+    /**
+     * @brief   Callback typedef for gpio_write
+     *
+     * @see @ref #gpio_write
+     */
+    void (*write)(void *dev, gpio_pin_t pin, int value);
+
+} gpio_driver_t;
+
+/**
+ * @brief   GPIO device type
+ * TODO Document
+ */
+typedef struct gpio_dev {
+    const gpio_driver_t *driver;    /**< pointer to the GPIO device driver */
+    void *dev;                      /**< pointer to the GPIO device descriptor, NULL in case of MCU */
+} gpio_dev_t;
+
+/**
+ * @brief   GPIO type definition
+ * TODO Document
+ * If GPIO extension API is enabled by module `extend_gpio`, the GPIO type
+ * definition is a structure that is used for CPU GPIO pins as well
+ * as GPIO extension pins.
+ */
+typedef struct {
+    const gpio_dev_t *dev;  /**< pointer to the device of the GPIO */
+    gpio_pin_t num;         /**< pin number */
+} gpio_t;
+
+/** TODO Document */
+extern const gpio_driver_t gpio_cpu_driver;
+
+#ifndef DOXYGEN
+/** TODO Document */
+/**
+ * @name    Low-level versions of the GPIO functions
+ *
+ * These are for CPU implementation in `cpu/.../periph/gpio.c` and should not
+ * be called directly.
+ * @{
+ */
+int  gpio_cpu_init(void *dev, gpio_pin_t pin, gpio_mode_t mode);
+int  gpio_cpu_init_int(void *dev, gpio_pin_t pin, gpio_mode_t mode,
+                       gpio_flank_t flank, gpio_cb_t cb, void *arg);
+void gpio_cpu_irq_enable(void *dev, gpio_pin_t pin);
+void gpio_cpu_irq_disable(void *dev, gpio_pin_t pin);
+int  gpio_cpu_read(void *dev, gpio_pin_t pin);
+void gpio_cpu_set(void *dev, gpio_pin_t pin);
+void gpio_cpu_clear(void *dev, gpio_pin_t pin);
+void gpio_cpu_toggle(void *dev, gpio_pin_t pin);
+void gpio_cpu_write(void *dev, gpio_pin_t pin, int value);
+/** @} */
+#endif /* DOXYGEN */
+
+/**
  * @brief   Initialize the given pin as general purpose input or output
  *
  * When configured as output, the pin state after initialization is undefined.
@@ -163,7 +305,10 @@ typedef struct {
  * @return              0 on success
  * @return              -1 on error
  */
-int gpio_init(gpio_t pin, gpio_mode_t mode);
+static inline int gpio_init(gpio_t pin, gpio_mode_t mode)
+{
+    return pin.dev->driver->init(pin.dev->dev, pin.num, mode);
+}
 
 #if defined(MODULE_PERIPH_GPIO_IRQ) || defined(DOXYGEN)
 /**
@@ -186,8 +331,11 @@ int gpio_init(gpio_t pin, gpio_mode_t mode);
  * @return              0 on success
  * @return              -1 on error
  */
-int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
-                  gpio_cb_t cb, void *arg);
+static inline int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
+                                gpio_cb_t cb, void *arg)
+{
+    return pin.dev->driver->init_int(pin.dev->dev, pin.num, mode, flank, cb, arg);
+}
 
 /**
  * @brief   Enable pin interrupt if configured as interrupt source
@@ -197,7 +345,10 @@ int gpio_init_int(gpio_t pin, gpio_mode_t mode, gpio_flank_t flank,
  *
  * @param[in] pin       the pin to enable the interrupt for
  */
-void gpio_irq_enable(gpio_t pin);
+static inline void gpio_irq_enable(gpio_t pin)
+{
+    pin.dev->driver->irq_enable(pin.dev->dev, pin.num);
+}
 
 /**
  * @brief   Disable the pin interrupt if configured as interrupt source
@@ -207,7 +358,10 @@ void gpio_irq_enable(gpio_t pin);
  *
  * @param[in] pin       the pin to disable the interrupt for
  */
-void gpio_irq_disable(gpio_t pin);
+static inline void gpio_irq_disable(gpio_t pin)
+{
+    pin.dev->driver->irq_disable(pin.dev->dev, pin.num);
+}
 
 #endif /* defined(MODULE_PERIPH_GPIO_IRQ) || defined(DOXYGEN) */
 
@@ -219,28 +373,40 @@ void gpio_irq_disable(gpio_t pin);
  * @return              0 when pin is LOW
  * @return              >0 for HIGH
  */
-int gpio_read(gpio_t pin);
+static inline int gpio_read(gpio_t pin)
+{
+    return pin.dev->driver->read(pin.dev->dev, pin.num);
+}
 
 /**
  * @brief   Set the given pin to HIGH
  *
  * @param[in] pin       the pin to set
  */
-void gpio_set(gpio_t pin);
+static inline void gpio_set(gpio_t pin)
+{
+    pin.dev->driver->set(pin.dev->dev, pin.num);
+}
 
 /**
  * @brief   Set the given pin to LOW
  *
  * @param[in] pin       the pin to clear
  */
-void gpio_clear(gpio_t pin);
+static inline void gpio_clear(gpio_t pin)
+{
+    pin.dev->driver->clear(pin.dev->dev, pin.num);
+}
 
 /**
  * @brief   Toggle the value of the given pin
  *
  * @param[in] pin       the pin to toggle
  */
-void gpio_toggle(gpio_t pin);
+static inline void gpio_toggle(gpio_t pin)
+{
+    pin.dev->driver->toggle(pin.dev->dev, pin.num);
+}
 
 /**
  * @brief   Set the given pin to the given value
@@ -248,7 +414,10 @@ void gpio_toggle(gpio_t pin);
  * @param[in] pin       the pin to set
  * @param[in] value     value to set the pin to, 0 for LOW, HIGH otherwise
  */
-void gpio_write(gpio_t pin, int value);
+static inline void gpio_write(gpio_t pin, int value)
+{
+    pin.dev->driver->write(pin.dev->dev, pin.num, value);
+}
 
 #ifdef __cplusplus
 }
