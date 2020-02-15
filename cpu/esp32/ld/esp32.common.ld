@@ -25,6 +25,9 @@ SECTIONS
        only initialized at power on reset */
     _rtc_bss_rtc_start = ABSOLUTE(.);
     *(.rtc.bss .rtc.bss.*)
+    _sbackup_bss = ABSOLUTE(.);
+    *(.backup.bss)
+    _ebackup_bss = ABSOLUTE(.);
     _rtc_bss_rtc_end = ABSOLUTE(.);
   } > rtc_slow_seg
 
@@ -38,6 +41,9 @@ SECTIONS
     *(.rtc.data)
     *(.rtc.rodata)
     *rtc_wake_stub*.o(.data .rodata .data.* .rodata.* .bss .bss.*)
+    _sbackup_data = ABSOLUTE(.);
+    *(.backup.data)
+    _ebackup_data = ABSOLUTE(.);
     _rtc_data_end = ABSOLUTE(.);
   } > rtc_slow_seg
 
