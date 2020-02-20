@@ -199,8 +199,6 @@ GPIO39 | ADC_LINE(3)            | ADC_LINE(3)         | ADC_LINE(3)         | CA
 For detailed information about the configuration of ESP32 boards, see
 section Peripherals in \ref esp32_riot.
 
-https://docs.espressif.com/projects/esp-idf/en/latest/get-started/get-started-wrover-kit.html
-
 ### <a name="optional_hardware"> Optional Hardware Configurations </a> &nbsp;&nbsp; [[TOC](#toc)]
 
 MRF24J40-based IEEE 802.15.4 radio modules and ENC28J60-based Ethernet network interface modules have been tested with the board. You could use the following code in your \ref esp32_app_spec_conf "application-specific configuration" to use such modules:
