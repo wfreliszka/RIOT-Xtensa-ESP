@@ -159,7 +159,7 @@ int main(void)
     uint16_t als;
     uint16_t lux;
 
-#if MODULE_VL6180X_BASIC
+#ifdef MODULE_VL6180X_BASIC
 
     while (1) {
         /* just wait 100 ms if module vl6180x_basic is used */
