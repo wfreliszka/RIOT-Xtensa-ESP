@@ -113,11 +113,11 @@ typedef enum {
 } vl6180x_error_t;
 
 /**
- * @brief   Aanalogue gain of ALS measurements
+ * @brief   Analogue gain of ALS measurements
  */
 typedef enum {
     VL6180X_ALS_GAIN_20 = 0,    /**<   20 x gain */
-    VL6180X_ALS_GAIN_100,       /**<   10 x gain */
+    VL6180X_ALS_GAIN_10,        /**<   10 x gain */
     VL6180X_ALS_GAIN_5,         /**<    5 x gain */
     VL6180X_ALS_GAIN_2_5,       /**<  2.5 x gain */
     VL6180X_ALS_GAIN_1_67,      /**< 1.67 x gain */

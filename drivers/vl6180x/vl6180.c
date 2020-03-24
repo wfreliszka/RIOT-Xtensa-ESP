@@ -87,7 +87,7 @@ static int _reset(const vl6180x_t *dev);
 static int _init(vl6180x_t *dev);
 
 static void _set_reg_bit(uint8_t *byte, uint8_t mask, uint8_t bit);
-#if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
 static uint8_t _get_reg_bit(uint8_t byte, uint8_t mask);
 #endif
 
@@ -113,7 +113,7 @@ int vl6180x_init(vl6180x_t *dev, const vl6180x_params_t *params)
     /* init sensor data structure */
     dev->params = *params;
 
-    #if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
     dev->int_init = false;
 
     /* if shutdown pin is defined, it is initialized first and set */
@@ -124,7 +124,7 @@ int vl6180x_init(vl6180x_t *dev, const vl6180x_params_t *params)
 
     dev->rng_status = VL6180X_RNG_OK;
     dev->als_status = VL6180X_ALS_OK;
-    #endif /* !MODULE_VL6180X_BASIC */
+#endif /* !MODULE_VL6180X_BASIC */
 
     /* init the sensor and start measurement */
     return _init(dev);
@@ -161,14 +161,14 @@ int vl6180x_rng_read (vl6180x_t *dev, uint8_t *mm)
     /* clear range interrupt flag */
     EXEC_RET(_write_byte(dev, VL6180X_REG_INT_CLR, VL6180X_CLR_RNG_INT));
 
-    #if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
     dev->rng_status = _get_reg_bit(status, VL6180X_RNG_ERR_CODE);
-    #endif
+#endif
 
     return (status & VL6180X_RNG_ERR_CODE) ? VL6180X_ERROR_RNG : VL6180X_OK;
 }
 
-#if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
 vl6180x_rng_status_t vl6180x_rng_status(vl6180x_t *dev)
 {
     ASSERT_PARAM(dev != NULL);
@@ -265,9 +265,9 @@ int vl6180x_als_read (vl6180x_t *dev, uint16_t *raw, uint16_t *lux)
     uint8_t status;
     EXEC_RET(_read(dev, VL6180X_REG_ALS_STATUS, &status, 1));
 
-    #if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
     dev->als_status = _get_reg_bit(status, VL6180X_ALS_ERR_CODE);
-    #endif
+#endif
 
     if ((status & VL6180X_ALS_ERR_CODE) == 0) {
         if (raw) {
@@ -287,7 +287,7 @@ int vl6180x_als_read (vl6180x_t *dev, uint16_t *raw, uint16_t *lux)
     return (status & VL6180X_ALS_ERR_CODE) ? VL6180X_ERROR_ALS : VL6180X_OK;
 }
 
-#if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
 vl6180x_als_status_t vl6180x_als_status(vl6180x_t *dev)
 {
     ASSERT_PARAM(dev != NULL);
@@ -353,7 +353,7 @@ int vl6180x_als_config(vl6180x_t *dev, uint8_t period, uint8_t int_time,
 }
 #endif /* !MODULE_VL6180X_BASIC */
 
-#if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
 int vl6180x_power_down(const vl6180x_t *dev)
 {
     ASSERT_PARAM(dev != NULL);
@@ -490,12 +490,12 @@ static int _init(vl6180x_t *dev)
     /* reset the device to a basic recommended configuration */
     EXEC_RET(_reset(dev));
 
-    #if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
     if (dev->params.pin_shutdown != GPIO_UNDEF) {
         EXEC_RET(_write_byte(dev, VL6180X_REG_GPIO0_MODE,
                                   VL6180X_GPIO0_POL_HIGH | VL6180X_GPIO0_SHUT_ON));
     }
-    #endif
+#endif
 
     /* clear all interrupt flag */
     EXEC_RET(_write_byte(dev, VL6180X_REG_INT_CLR, VL6180X_CLR_ALL_INT));
@@ -744,7 +744,7 @@ static void _set_reg_bit(uint8_t *byte, uint8_t mask, uint8_t bit)
     *byte = ((*byte & ~mask) | ((bit << shift) & mask));
 }
 
-#if !MODULE_VL6180X_BASIC
+#ifndef MODULE_VL6180X_BASIC
 static uint8_t _get_reg_bit(uint8_t byte, uint8_t mask)
 {
     uint8_t shift = 0;
