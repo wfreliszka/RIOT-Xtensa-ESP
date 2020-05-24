@@ -21,7 +21,7 @@
 #include "lis3mdl.h"
 #include "include/lis3mdl-internal.h"
 
-#define ENABLE_DEBUG (0)
+#define ENABLE_DEBUG (1)
 #include "debug.h"
 
 #define MASK_INT16_MSB     (0x8000)
@@ -95,7 +95,10 @@ void lis3mdl_read_mag(const lis3mdl_t *dev, lis3mdl_3d_data_t *data)
     i2c_acquire(DEV_I2C);
 
     i2c_read_regs(DEV_I2C, DEV_ADDR, LIS3MDL_OUT_X_L_REG, &tmp[0], 2, 0);
+
+    
     data->x_axis = (tmp[1] << 8) | tmp[0];
+    //DEBUG("LIS3MDL: x[0] %d x[1] %X x %D\n",tmp[0], tmp[1],data->x_axis);
 
     i2c_read_regs(DEV_I2C, DEV_ADDR, LIS3MDL_OUT_Y_L_REG, &tmp[0], 2, 0);
     data->y_axis = (tmp[1] << 8) | tmp[0];
@@ -108,9 +111,9 @@ void lis3mdl_read_mag(const lis3mdl_t *dev, lis3mdl_3d_data_t *data)
     data->z_axis = _twos_complement(data->z_axis);
 
     /* Divide the raw data by 1000 to geht [G] := Gauss */
-    data->x_axis /= GAUSS_DIVIDER;
-    data->y_axis /= GAUSS_DIVIDER;
-    data->z_axis /= GAUSS_DIVIDER;
+    // data->x_axis /= GAUSS_DIVIDER;
+    // data->y_axis /= GAUSS_DIVIDER;
+    // data->z_axis /= GAUSS_DIVIDER;
 
     i2c_release(DEV_I2C);
 }
