@@ -254,4 +254,10 @@ void auto_init(void)
         extern void gnrc_dhcpv6_client_6lbr_init(void);
         gnrc_dhcpv6_client_6lbr_init();
     }
+
+    if (IS_USED(MODULE_AUTO_INIT_L3GD20H)) {
+        LOG_DEBUG("MODULE_L3GD20H auto init\n");
+        extern void auto_init_l3gd20h(void);
+        auto_init_l3gd20h();
+    }
 }

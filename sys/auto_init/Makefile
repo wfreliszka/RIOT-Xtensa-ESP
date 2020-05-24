@@ -2,8 +2,8 @@ ifneq (,$(filter gnrc_netif_init,$(USEMODULE)))
   DIRS += netif
 endif
 
-ifneq (,$(filter saul_init,$(USEMODULE)))
-  DIRS += saul
+ifneq (,$(filter auto_init_l3gd20h,$(USEMODULE)))
+  DIRS += l3gd20h
 endif
 
 ifneq (,$(filter auto_init_storage,$(USEMODULE)))
