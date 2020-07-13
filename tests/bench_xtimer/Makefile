@@ -50,15 +50,18 @@ LOW_MEMORY_BOARDS += \
   opencm904 \
   saml10-xpro \
   saml11-xpro \
+  serpente \
   sodaq-autonomo \
   sodaq-explorer \
   sodaq-one \
   sodaq-sara-aff \
+  sodaq-sara-sff \
   spark-core \
   stm32f0discovery \
   stm32l0538-disco \
   telosb \
   waspmote-pro \
+  wemos-zero \
   wsn430-v1_3b \
   wsn430-v1_4 \
   yunjia-nrf51822 \

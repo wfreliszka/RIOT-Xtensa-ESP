@@ -27,7 +27,7 @@
 #include "periph/i2c.h"
 #include "xtimer.h"
 
-#define ENABLE_DEBUG        (0)
+#define ENABLE_DEBUG        (1)
 #include "debug.h"
 
 #define DEV_I2C      (dev->params.i2c_dev)
@@ -56,10 +56,10 @@ int bmp180_init(bmp180_t *dev, const bmp180_params_t *params)
     i2c_acquire(DEV_I2C);
 
     /* Check sensor ID */
-    uint8_t checkid;
+    uint8_t checkid=0;
     i2c_read_reg(DEV_I2C, DEV_ADDR, BMP180_REGISTER_ID, &checkid, 0);
     if (checkid != 0x55) {
-        DEBUG("[Error] Wrong device ID\n");
+        DEBUG("[Error] Wrong device ID %x expected %x\n",checkid,0x55);
         i2c_release(DEV_I2C);
         return -BMP180_ERR_NODEV;
     }

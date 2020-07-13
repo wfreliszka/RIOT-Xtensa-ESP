@@ -125,6 +125,49 @@ static const uart_conf_t uart_config[] = {
 /** @} */
 
 /**
+ * @name    PWM configuration
+ * @{
+ */
+static const pwm_conf_t pwm_config[] = {
+    // {
+    //     .dev      = TIM1,
+    //     .rcc_mask = RCC_APB2ENR_TIM1EN,
+    //     .chan     = { { .pin = GPIO_PIN(PORT_E,  9), .cc_chan = 0 },
+    //                   { .pin = GPIO_PIN(PORT_E, 11), .cc_chan = 1 },
+    //                   { .pin = GPIO_PIN(PORT_E, 11), .cc_chan = 2 },
+    //                   { .pin = GPIO_PIN(PORT_E, 14), .cc_chan = 3 } },
+    //     .af       = GPIO_AF1,
+    //     .bus      = APB2
+    // },
+    // {
+    //     .dev      = TIM3,
+    //     .rcc_mask = RCC_APB1ENR_TIM3EN,
+    //     .chan     = { { .pin = GPIO_PIN(PORT_C, 10), .cc_chan = 0 },//4
+    //                   { .pin = GPIO_PIN(PORT_B, 5), .cc_chan = 1 },
+    //                   { .pin = GPIO_PIN(PORT_B, 0), .cc_chan = 2 },
+    //                   { .pin = GPIO_PIN(PORT_B, 1),1 .cc_chan = 3 } },
+    //     .af       = GPIO_AF2,
+    //     .bus      = APB1
+    // }
+    {
+        .dev      = TIM3,
+        .rcc_mask = RCC_APB1ENR_TIM3EN,
+        .chan     = { { .pin = GPIO_PIN(PORT_C, 6), .cc_chan = 0 },
+                      { .pin = GPIO_PIN(PORT_C, 7), .cc_chan = 1 },
+                      { .pin = GPIO_PIN(PORT_C, 8), .cc_chan = 2 },
+                      { .pin = GPIO_PIN(PORT_C, 9), .cc_chan = 3 } },
+        .af       = GPIO_AF2,
+        .bus      = APB1
+    }
+};
+
+#define PWM_NUMOF           ARRAY_SIZE(pwm_config)
+
+
+
+/** @} */
+
+/**
  * @name SPI configuration
  * @{
  */
@@ -176,6 +219,30 @@ static const spi_conf_t spi_config[] = {
 
 #define SPI_NUMOF           ARRAY_SIZE(spi_config)
 /** @} */
+
+
+
+
+static const i2c_conf_t i2c_config[] = {
+    {
+        .dev            = I2C1,
+        .speed          = I2C_SPEED_NORMAL,
+        .scl_pin        = GPIO_PIN(PORT_B, 10),
+        .sda_pin        = GPIO_PIN(PORT_B, 11),
+        .scl_af         = GPIO_AF0,
+        .sda_af         = GPIO_AF0,
+        .bus            = APB1,
+        .rcc_mask       = RCC_APB1ENR_I2C1EN,
+        .rcc_sw_mask    = RCC_CFGR3_I2C1SW,
+        .irqn           = I2C1_ER_IRQn
+    },
+};
+
+
+#define I2C_0_ISR           isr_i2c1_er
+#define I2C_1_ISR           isr_i2c2_er
+
+#define I2C_NUMOF           ARRAY_SIZE(i2c_config)
 
 #ifdef __cplusplus
 }

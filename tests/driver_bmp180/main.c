@@ -32,6 +32,8 @@ int main(void)
     bmp180_t dev;
     int result;
 
+    xtimer_sleep(2);
+
     puts("BMP180 test application\n");
 
     printf("+------------Initializing------------+\n");

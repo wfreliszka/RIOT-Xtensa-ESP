@@ -45,9 +45,11 @@ int motor_driver_init(motor_driver_t motor_driver)
 
     uint32_t ret_pwm = pwm_init(pwm_dev, mode, freq, resol);
     if (ret_pwm != freq) {
-        err = EINVAL;
-        LOG_ERROR("pwm_init failed\n");
-        goto motor_init_err;
+        // err = EINVAL;
+        // LOG_ERROR("pwm_init failed\n");
+        // goto motor_init_err;
+
+        LOG_ERROR("Requested frequency %ld is different from aquired %ld\n",freq,ret_pwm);
     }
 
     for (uint8_t i = 0; i < motor_driver_conf->nb_motors; i++) {

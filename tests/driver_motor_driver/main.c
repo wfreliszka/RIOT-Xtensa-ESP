@@ -95,11 +95,11 @@ void motion_control(void)
         /* Disable motor during INTERVAL µs (motor driver must have enable
            feature */
         last_wakeup = xtimer_now();
-        motor_disable(MOTOR_DRIVER_DEV(0), MOTOR_0_ID);
-        motor_disable(MOTOR_DRIVER_DEV(0), MOTOR_1_ID);
+        //motor_disable(MOTOR_DRIVER_DEV(0), MOTOR_0_ID);
+        //motor_disable(MOTOR_DRIVER_DEV(0), MOTOR_1_ID);
         xtimer_periodic_wakeup(&last_wakeup, INTERVAL);
-        motor_enable(MOTOR_DRIVER_DEV(0), MOTOR_0_ID);
-        motor_enable(MOTOR_DRIVER_DEV(0), MOTOR_1_ID);
+        //motor_enable(MOTOR_DRIVER_DEV(0), MOTOR_0_ID);
+        //motor_enable(MOTOR_DRIVER_DEV(0), MOTOR_1_ID);
 
         /* CW - duty cycle 100% */
         last_wakeup = xtimer_now();

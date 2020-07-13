@@ -54,6 +54,10 @@ static inline void *_malloc(size_t size)
 static inline void _free(void *ptr)
 {
     if (ptr != NULL) {
+        /* The fuzzing module is only enabled when building a fuzzing
+         * application from the fuzzing/ subdirectory. If _free is
+         * called on the crafted fuzzing packet, the setup assumes that
+         * input processing has completed and the application terminates. */
 #if defined(MODULE_FUZZING) && !defined(MODULE_GNRC_SOCK)
         if (ptr == gnrc_pktbuf_fuzzptr) {
            exit(EXIT_SUCCESS);
@@ -97,9 +101,9 @@ gnrc_pktsnip_t *gnrc_pktbuf_add(gnrc_pktsnip_t *next, const void *data, size_t s
 {
     gnrc_pktsnip_t *pkt;
 
-    if (size > GNRC_PKTBUF_SIZE) {
-        DEBUG("pktbuf: size (%u) > GNRC_PKTBUF_SIZE (%u)\n",
-              (unsigned)size, GNRC_PKTBUF_SIZE);
+    if (size > CONFIG_GNRC_PKTBUF_SIZE) {
+        DEBUG("pktbuf: size (%u) > CONFIG_GNRC_PKTBUF_SIZE (%u)\n",
+              (unsigned)size, CONFIG_GNRC_PKTBUF_SIZE);
         return NULL;
     }
     mutex_lock(&_mutex);
