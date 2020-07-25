@@ -24,28 +24,43 @@
 #include "xtimer.h"
 #include "hcsr0x.h"
 
-gpio_t trigger_pin = GPIO_PIN(0, 2);
-gpio_t echo_pin = GPIO_PIN(0, 5);
+//gpio_t trigger_pin = GPIO_PIN(PORT_C, 10);
+gpio_t trigger_pin = GPIO_PIN(PORT_B, 2);
+//GPIO_PIN(0, 2);
+gpio_t echo_pin = GPIO_PIN(PORT_C, 0);
+//GPIO_PIN(0, 5);
 
+
+//gpio_t trigger_pin2 = GPIO_PIN(PORT_C, 11);
+gpio_t trigger_pin2 = GPIO_PIN(PORT_B, 2);
+gpio_t echo_pin2 = GPIO_PIN(PORT_C, 1);
+
+    void * dev1=NULL;
 int out_milimeters_distance=0;
 void output_callback(const void *dev,int16_t milimeters_distance)
 {
 	out_milimeters_distance=milimeters_distance;
+    dev1=(void *)dev;
 }
 
 
 int main(void)
 {
     hcsr0x_t dev;
+    //hcsr0x_t dev2;
     xtimer_sleep(1);
 
-    printf("HCSR0X test application\n");
+    printf("HCSR0X test application %d\n",(int)dev1);
    
 
-    if (hcsr0x_init(&dev, &output_callback,trigger_pin,echo_pin) != HCSR0X_OK) {
+    if (hcsr0x_init(&dev, &output_callback,trigger_pin,echo_pin,false) != HCSR0X_OK) {
         printf("[ERROR] in init");
         return 1;
     }
+    // if (hcsr0x_init(&dev2, &output_callback,trigger_pin2,echo_pin2,true) != HCSR0X_OK) {
+    //     printf("[ERROR] in init");
+    //     return 1;
+    // }
     printf("[SUCCESS]\n");
 
     //xtimer_sleep(1);
@@ -53,11 +68,19 @@ int main(void)
     while (1) {
 		//printf("Measure!\n");
 		xtimer_usleep(100*1000);
+        //xtimer_sleep(1);
         if (hcsr0x_measure(&dev) != HCSR0X_OK)
 		{
             puts("\n[ERROR] invoking echo!\n");
         }
-		printf("Distance is %d cm\n",out_milimeters_distance);
+		printf("Distance is %d - %d cm\n",(int)dev1,(int)out_milimeters_distance);
+
+        // xtimer_usleep(100*1000);
+        // if (hcsr0x_measure(&dev2) != HCSR0X_OK)
+		// {
+        //     puts("\n[ERROR] invoking echo!\n");
+        // }
+		// printf("Distance is %d - %d cm\n",(int)dev1,(int)out_milimeters_distance);
 		
     }
 

@@ -26,10 +26,12 @@
 #include "fmt_table.h"
 #include "ina2xx.h"
 #include "ina2xx_params.h"
+#include "xtimer.h"
 
 int main(void)
 {
     ina2xx_t dev;
+    xtimer_sleep(2);
 
     print_str("INA2XX sensor driver test application\n\n");
 

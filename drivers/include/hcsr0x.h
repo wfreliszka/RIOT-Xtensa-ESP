@@ -79,7 +79,7 @@ enum {
  * @return HCSR0X_OK on success
  * @return < 0 on error
  */
-int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin);
+int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused);
 
 
 /**

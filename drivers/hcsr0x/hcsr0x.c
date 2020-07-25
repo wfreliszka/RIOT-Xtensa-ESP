@@ -42,7 +42,7 @@ void hcsr0x_echo_cb(void* arg){
     {   //this is a falling edge. We conclude measurement
         uint32_t end_time = xtimer_now_usec();
 	    uint32_t echo_time = end_time - dev->params.start_time;
-        DEBUG("echo_time %d\n",echo_time);
+        DEBUG("echo_time %ld\n",echo_time);
         if(echo_time>0xE000)
             dev->params.callback(dev,HCSR0X_ECHO_DURATION_INVALID);
         else{
@@ -54,7 +54,7 @@ void hcsr0x_echo_cb(void* arg){
 
 }
 
-int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin)
+int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused)
 {
     int res;
     assert(dev);
@@ -63,12 +63,16 @@ int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pi
     dev->params.trigger_pin=trigger_pin;
     dev->params.echo_pin=echo_pin;
 
-    res=gpio_init(trigger_pin, GPIO_OUT);
-    if(res<0){
-        DEBUG("[ERROR] gpio_init failed for trigger_pin %d!\n",res); 
-        return HCSR0X_TRIGGER_PIN_ERR;
+    if(trigger_reused==false)
+    {
+        res=gpio_init(trigger_pin, GPIO_OUT);
+        if(res<0){
+            DEBUG("[ERROR] gpio_init failed for trigger_pin %d!\n",res); 
+            return HCSR0X_TRIGGER_PIN_ERR;
+        }
+        gpio_clear(trigger_pin);
     }
-    gpio_clear(trigger_pin);
+
 
 	res=gpio_init_int(echo_pin, GPIO_IN, GPIO_BOTH, &hcsr0x_echo_cb, dev);
     if(res<0){
@@ -76,11 +80,13 @@ int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pi
         return HCSR0X_ECHO_PIN_ERR;
     }
 
+DEBUG("hcsr0x_echo_cb\n"); 
     return HCSR0X_OK;
 }
 
-int hcsr0x_measure(hcsr0x_t *dev)
+    int hcsr0x_measure(hcsr0x_t *dev)
 {
+    DEBUG("measure\n"); 
     gpio_clear(dev->params.trigger_pin);
     xtimer_usleep(50);
     gpio_set(dev->params.trigger_pin);

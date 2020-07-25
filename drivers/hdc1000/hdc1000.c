@@ -28,7 +28,7 @@
 #include "periph/i2c.h"
 #include "hdc1000.h"
 
-#define ENABLE_DEBUG    (0)
+#define ENABLE_DEBUG    (1)
 #include "debug.h"
 
 static int16_t temp_cached, hum_cached;
@@ -39,18 +39,24 @@ int hdc1000_init(hdc1000_t *dev, const hdc1000_params_t *params)
     uint8_t reg[2];
     uint16_t tmp;
 
+    DEBUG("hdc1000_init\n");
+
     /* write device descriptor */
     dev->p = *params;
 
     /* try if we can interact with the device by reading its manufacturer ID */
     i2c_acquire(dev->p.i2c);
-    if (i2c_read_regs(dev->p.i2c, dev->p.addr,
-                      HDC1000_MANUFACTURER_ID, reg, 2, 0) < 0) {
+    int status=i2c_read_regs(dev->p.i2c, dev->p.addr,
+                      HDC1000_MANUFACTURER_ID, reg, 2, 0);
+    if ( status< 0) {
+                          DEBUG("i2c_read_regs failed %d\n",status);
         i2c_release(dev->p.i2c);
         return HDC1000_NOBUS;
     }
 
     tmp = ((uint16_t)reg[0] << 8) | reg[1];
+
+    DEBUG("got %d, expecting %d\n", tmp, HDC1000_MID_VALUE);
     if (tmp != HDC1000_MID_VALUE) {
         i2c_release(dev->p.i2c);
         return HDC1000_NODEV;

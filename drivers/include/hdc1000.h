@@ -63,7 +63,7 @@ extern "C"
  * For more details refer Section 8.5.1 of datasheet
  */
 #ifndef CONFIG_HDC1000_I2C_ADDRESS
-#define CONFIG_HDC1000_I2C_ADDRESS           (0x43)
+#define CONFIG_HDC1000_I2C_ADDRESS           (0x40)
 #endif
 
 /**

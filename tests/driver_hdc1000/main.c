@@ -36,6 +36,8 @@ int main(void)
     char tstr[8];
     char hstr[8];
 
+    xtimer_sleep(2);
+
     puts("HDC1000 Temperature and Humidity Sensor driver test application\n");
     printf("Initializing HDC1000 sensor at I2C_DEV(%i)... ",
             (int)hdc1000_params[0].i2c);

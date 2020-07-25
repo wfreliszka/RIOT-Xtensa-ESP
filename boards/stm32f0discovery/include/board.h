@@ -82,8 +82,8 @@ static const motor_driver_config_t motor_driver_config[] = {
             {
                 .pwm_channel            = 0,
                 .gpio_enable            = GPIO_UNDEF,
-                .gpio_dir0              = GPIO_PIN(PORT_C, 10),
-                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 11),
+                .gpio_dir0              = GPIO_PIN(PORT_C, 12),
+                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 13),
                 .gpio_dir_reverse       = 0,
                 .gpio_enable_invert     = 0,
                 .gpio_brake_invert      = 1,
@@ -91,8 +91,8 @@ static const motor_driver_config_t motor_driver_config[] = {
             {
                 .pwm_channel            = 1,
                 .gpio_enable            = GPIO_UNDEF,
-                .gpio_dir0              = GPIO_PIN(PORT_C, 12),
-                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 13),
+                .gpio_dir0              = GPIO_PIN(PORT_C, 11),
+                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 10),
                 .gpio_dir_reverse       = 0,
                 .gpio_enable_invert     = 0,
                 .gpio_brake_invert      = 1,
