@@ -59,6 +59,7 @@ static void cb(void *arg)
 
 int main(void)
 {
+            xtimer_sleep(2);
     struct tm time = {
         .tm_year = 2020 - TM_YEAR_OFFSET,   /* years are counted from 1900 */
         .tm_mon  =  1,                      /* 0 = January, 11 = December */

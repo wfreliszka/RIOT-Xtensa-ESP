@@ -45,7 +45,7 @@ extern "C" {
  * On the popular INA219 breakout board this is the default address if solder
  * jumpers remain open.
  */
-#define INA2XX_PARAM_ADDR           (0x41)
+#define INA2XX_PARAM_ADDR           (0x40)
 #endif
 #ifndef INA2XX_PARAM_CONFIG
 /**

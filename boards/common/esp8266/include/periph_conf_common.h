@@ -219,7 +219,8 @@ static const spi_conf_t spi_config[] = {
 
 #define UART0_TXD   GPIO1               /**< TxD pin of UART_DEV(0) */
 #define UART0_RXD   GPIO3               /**< RxD pin of UART_DEV(0) */
-
+#define UART1_TXD   GPIO2               /**< TxD pin of UART_DEV(1) */
+#define UART1_RXD   GPIO8               /**< RxD pin of UART_DEV(1) */
 /**
  * @brief   Static array with configuration for declared UART devices
  */
@@ -227,6 +228,10 @@ static const uart_conf_t uart_config[] = {
     {
         .txd = UART0_TXD,
         .rxd = UART0_RXD,
+    },
+    {
+        .txd = UART1_TXD,
+        .rxd = UART1_RXD,
     },
 };
 

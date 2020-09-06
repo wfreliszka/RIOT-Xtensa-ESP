@@ -35,6 +35,8 @@ int main(void)
 {
     bmx280_t dev;
 
+      xtimer_sleep(2);
+
     puts("BMX280 test application\n");
 
     puts("+------------Initializing------------+");

@@ -38,6 +38,8 @@ int main(void)
     int32_t temperature;
     int result;
 
+    xtimer_sleep(2);
+
     puts("MPU-9X50 test application\n");
 
     printf("+------------Initializing------------+\n");

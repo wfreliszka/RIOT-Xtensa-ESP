@@ -25,21 +25,22 @@
 #include "hcsr0x.h"
 
 //gpio_t trigger_pin = GPIO_PIN(PORT_C, 10);
-gpio_t trigger_pin = GPIO_PIN(PORT_B, 2);
+gpio_t trigger_pin = GPIO_PIN(PORT_D, 11);
 //GPIO_PIN(0, 2);
-gpio_t echo_pin = GPIO_PIN(PORT_C, 0);
+gpio_t echo_pin = GPIO_PIN(PORT_A, 1);
 //GPIO_PIN(0, 5);
-
+ 
 
 //gpio_t trigger_pin2 = GPIO_PIN(PORT_C, 11);
-gpio_t trigger_pin2 = GPIO_PIN(PORT_B, 2);
-gpio_t echo_pin2 = GPIO_PIN(PORT_C, 1);
+//gpio_t trigger_pin2 = GPIO_PIN(PORT_B, 2);
+//gpio_t echo_pin2 = GPIO_PIN(PORT_C, 1);
 
     void * dev1=NULL;
 int out_milimeters_distance=0;
-void output_callback(const void *dev,int16_t milimeters_distance)
+void output_callback(const void *dev,int16_t milimeters_distance,int32_t payload)
 {
 	out_milimeters_distance=milimeters_distance;
+    payload+=1;
     dev1=(void *)dev;
 }
 
@@ -53,7 +54,7 @@ int main(void)
     printf("HCSR0X test application %d\n",(int)dev1);
    
 
-    if (hcsr0x_init(&dev, &output_callback,trigger_pin,echo_pin,false) != HCSR0X_OK) {
+    if (hcsr0x_init(&dev, &output_callback,trigger_pin,echo_pin,false,111) != HCSR0X_OK) {
         printf("[ERROR] in init");
         return 1;
     }

@@ -167,9 +167,9 @@ int lsm9ds1_read_gyro(const lsm9ds1_t *dev, lsm9ds1_3d_data_t *data)
     data->z = (in[5] << 8) | in[4];
 
     assert(dev->params.gyro_fs < LSM9DS1_GYRO_FS_MAX);
-    data->x = ((int32_t)data->x * range_gyro[dev->params.gyro_fs]) / INT16_MAX;
-    data->y = ((int32_t)data->y * range_gyro[dev->params.gyro_fs]) / INT16_MAX;
-    data->z = ((int32_t)data->z * range_gyro[dev->params.gyro_fs]) / INT16_MAX;
+    data->x = ((int32_t)data->x * range_gyro[dev->params.gyro_fs]) ;// INT16_MAX;
+    data->y = ((int32_t)data->y * range_gyro[dev->params.gyro_fs]) ;// INT16_MAX;
+    data->z = ((int32_t)data->z * range_gyro[dev->params.gyro_fs]) ;// INT16_MAX;
 
     return LSM9DS1_OK;
 }

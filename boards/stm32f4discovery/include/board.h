@@ -86,6 +86,53 @@ extern "C" {
  */
 void board_init(void);
 
+
+
+#include "motor_driver.h"
+
+
+#include "periph_cpu.h"
+
+/**
+ * @name Describe DC motors with PWM channel and GPIOs
+ * @{
+ */
+static const motor_driver_config_t motor_driver_config[] = {
+    {
+        .pwm_dev         = 0,
+        .mode            = MOTOR_DRIVER_2_DIRS,
+        .mode_brake      = MOTOR_BRAKE_HIGH,
+        .pwm_mode        = PWM_LEFT,
+        .pwm_frequency   = 20000U,
+        .pwm_resolution  = 2250U,
+        .nb_motors       = 2,
+        .motors          = {
+            {
+                .pwm_channel            = 0,
+                .gpio_enable            = GPIO_UNDEF,
+                .gpio_dir0              = GPIO_PIN(PORT_C, 12),
+                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 13),
+                .gpio_dir_reverse       = 0,
+                .gpio_enable_invert     = 0,
+                .gpio_brake_invert      = 1,
+            },
+            {
+                .pwm_channel            = 1,
+                .gpio_enable            = GPIO_UNDEF,
+                .gpio_dir0              = GPIO_PIN(PORT_C, 11),
+                .gpio_dir1_or_brake     = GPIO_PIN(PORT_C, 10),
+                .gpio_dir_reverse       = 0,
+                .gpio_enable_invert     = 0,
+                .gpio_brake_invert      = 1,
+            },
+        },
+        .cb = NULL,
+    },
+};
+
+#define MOTOR_DRIVER_NUMOF           ARRAY_SIZE(motor_driver_config)
+
+
 #ifdef __cplusplus
 }
 #endif

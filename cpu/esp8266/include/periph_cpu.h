@@ -302,7 +302,7 @@ typedef struct {
 /**
  * @brief   Maximum number of UART interfaces
  */
-#define UART_NUMOF_MAX  (1)
+#define UART_NUMOF_MAX  (2)
 /** @} */
 
 #ifdef __cplusplus

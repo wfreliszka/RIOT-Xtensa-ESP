@@ -123,15 +123,16 @@ static const uart_conf_t uart_config[] = {
  * PIN, device (ADCx), channel
  * @{
  */
+
 #define ADC_CONFIG {              \
     {GPIO_PIN(PORT_A, 1), 0, 1},  \
     {GPIO_PIN(PORT_A, 4), 0, 4},  \
     {GPIO_PIN(PORT_C, 1), 1, 11}, \
-    {GPIO_PIN(PORT_C, 2), 1, 12}  \
+    {GPIO_PIN(PORT_C, 2), 1, 12}, \
+    { GPIO_PIN(PORT_C, 5), 1, 15 } \
 }
 
-#define ADC_NUMOF           (4)
-/** @} */
+#define ADC_NUMOF           (5)
 
 /**
  * @name   DAC configuration
@@ -159,17 +160,18 @@ static const pwm_conf_t pwm_config[] = {
                       { .pin = GPIO_PIN(PORT_E, 14), .cc_chan = 3 } },
         .af       = GPIO_AF1,
         .bus      = APB2
-    },
-    {
-        .dev      = TIM3,
-        .rcc_mask = RCC_APB1ENR_TIM3EN,
-        .chan     = { { .pin = GPIO_PIN(PORT_B, 4), .cc_chan = 0 },
-                      { .pin = GPIO_PIN(PORT_B, 5), .cc_chan = 1 },
-                      { .pin = GPIO_PIN(PORT_B, 0), .cc_chan = 2 },
-                      { .pin = GPIO_PIN(PORT_B, 1), .cc_chan = 3 } },
-        .af       = GPIO_AF2,
-        .bus      = APB1
     }
+    // ,
+    // {
+    //     .dev      = TIM3,
+    //     .rcc_mask = RCC_APB1ENR_TIM3EN,
+    //     .chan     = { { .pin = GPIO_PIN(PORT_B, 4), .cc_chan = 0 },
+    //                   { .pin = GPIO_PIN(PORT_B, 5), .cc_chan = 1 },
+    //                   { .pin = GPIO_PIN(PORT_B, 0), .cc_chan = 2 },
+    //                   { .pin = GPIO_PIN(PORT_B, 1), .cc_chan = 3 } },
+    //     .af       = GPIO_AF2,
+    //     .bus      = APB1
+    // }
 };
 
 #define PWM_NUMOF           ARRAY_SIZE(pwm_config)

@@ -44,17 +44,17 @@ void hcsr0x_echo_cb(void* arg){
 	    uint32_t echo_time = end_time - dev->params.start_time;
         DEBUG("echo_time %ld\n",echo_time);
         if(echo_time>0xE000)
-            dev->params.callback(dev,HCSR0X_ECHO_DURATION_INVALID);
+            dev->params.callback(dev,HCSR0X_ECHO_DURATION_INVALID,dev->params.payload);
         else{
             int16_t distance = echo_time/58;
-            dev->params.callback(dev,distance);
+            dev->params.callback(dev,distance,dev->params.payload);
         }
     }
     
 
 }
 
-int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused)
+int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused,int32_t payload)
 {
     int res;
     assert(dev);
@@ -62,9 +62,11 @@ int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pi
     dev->params.callback=cb;
     dev->params.trigger_pin=trigger_pin;
     dev->params.echo_pin=echo_pin;
+    dev->params.payload=payload;
 
     if(trigger_reused==false)
     {
+        DEBUG("init trigger pin %ld!\n",trigger_pin); 
         res=gpio_init(trigger_pin, GPIO_OUT);
         if(res<0){
             DEBUG("[ERROR] gpio_init failed for trigger_pin %d!\n",res); 
@@ -88,7 +90,9 @@ DEBUG("hcsr0x_echo_cb\n");
 {
     DEBUG("measure\n"); 
     gpio_clear(dev->params.trigger_pin);
-    xtimer_usleep(50);
+    xtimer_usleep(10);
     gpio_set(dev->params.trigger_pin);
+    xtimer_usleep(50);
+    gpio_clear(dev->params.trigger_pin);
     return HCSR0X_OK;
 }

@@ -19,7 +19,7 @@
  * @}
  */
 
-#define ENABLE_DEBUG (0)
+#define ENABLE_DEBUG (1)
 #include "debug.h"
 
 #include "esp_common.h"
@@ -91,6 +91,14 @@ static struct uart_hw_t _uarts[] = {
         .data = UART_DATA_BITS_8,
         .stop = UART_STOP_BITS_1,
         .parity = UART_PARITY_NONE,
+    },
+    {
+        .regs = &UART1,
+        .used = false,
+        .baudrate = STDIO_UART_BAUDRATE,
+        .data = UART_DATA_BITS_8,
+        .stop = UART_STOP_BITS_1,
+        .parity = UART_PARITY_NONE,
 #ifdef MCU_ESP32
         .mod = PERIPH_UART0_MODULE,
         .signal_txd = U0TXD_OUT_IDX,
@@ -143,6 +151,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, void *arg)
 
     assert(uart < UART_NUMOF_MAX);
     assert(uart < UART_NUMOF);
+    
 
 #ifdef MCU_ESP32
     /* UART1 and UART2 have configurable pins */

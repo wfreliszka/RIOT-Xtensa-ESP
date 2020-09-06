@@ -23,7 +23,7 @@
 #include "periph/spi.h"
 #include "lis3dh.h"
 
-#define ENABLE_DEBUG (0)
+#define ENABLE_DEBUG (1)
 #include "debug.h"
 
 #define SPI_MODE            SPI_MODE_3
@@ -44,7 +44,7 @@ int lis3dh_init(lis3dh_t *dev, const lis3dh_params_t *params)
 {
     dev->params = *params;
 
-    uint8_t test;
+    uint8_t test=0;
 
     /* initialize the chip select line */
     if (spi_init_cs(DEV_SPI, DEV_CS) != SPI_OK) {

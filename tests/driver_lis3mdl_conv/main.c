@@ -33,6 +33,8 @@ int main(void)
 {
     lis3mdl_t dev;
 
+    xtimer_sleep(1);
+
     puts("LIS3MDL test application");
     puts("Initializing LIS3MDL sensor");
 

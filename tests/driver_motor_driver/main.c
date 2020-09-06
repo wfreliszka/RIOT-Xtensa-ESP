@@ -106,6 +106,15 @@ void motion_control(void)
         motors_control(dir * pwm_res);
         xtimer_periodic_wakeup(&last_wakeup, INTERVAL);
 
+        last_wakeup = xtimer_now();
+        motors_control(dir * pwm_res*3/2);
+        xtimer_periodic_wakeup(&last_wakeup, INTERVAL);
+
+
+        last_wakeup = xtimer_now();
+        motors_control(dir * pwm_res);
+        xtimer_periodic_wakeup(&last_wakeup, INTERVAL);
+
         /* Reverse direction */
         dir = dir * -1;
     }

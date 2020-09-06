@@ -44,6 +44,8 @@ int main(void)
     lis3dh_t dev;
     lis3dh_data_t acc_data;
 
+    xtimer_sleep(2);
+
     puts("LIS3DH accelerometer driver test application\n");
 
     puts("Initializing LIS3DH sensor... ");

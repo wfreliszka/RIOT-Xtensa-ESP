@@ -38,7 +38,7 @@ struct hcsr0x_t;
  * @param[in] dev       optional context for the callback
  * @param[in] milimeters_distance       distance in milimeters or error code if negative
  */
-typedef void (*hcsr0x_cb_t)(const void *dev,int16_t milimeters_distance);
+typedef void (*hcsr0x_cb_t)(const void *dev,int16_t milimeters_distance,int32_t payload);
 
 /**
  * @brief   HCSR0X driver parameters
@@ -48,6 +48,7 @@ typedef struct {
     uint32_t start_time;
     gpio_t trigger_pin;
     gpio_t echo_pin;
+    int32_t payload;
 
 } hcsr0x_params_t;
 
@@ -79,7 +80,7 @@ enum {
  * @return HCSR0X_OK on success
  * @return < 0 on error
  */
-int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused);
+int hcsr0x_init(hcsr0x_t *dev, hcsr0x_cb_t cb, gpio_t trigger_pin,gpio_t echo_pin,bool trigger_reused,int32_t payload);
 
 
 /**

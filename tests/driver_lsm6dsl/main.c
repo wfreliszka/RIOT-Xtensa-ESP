@@ -35,6 +35,8 @@ int main(void)
     lsm6dsl_3d_data_t mag_value;
     lsm6dsl_3d_data_t acc_value;
 
+    xtimer_sleep(2);
+
     puts("LSM6DSL test application");
     printf("Initializing LSM6DSL sensor at I2C_%i... ", lsm6dsl_params->i2c);
 

@@ -29,6 +29,7 @@
 int main(void)
 {
     lsm303dlhc_t dev;
+        xtimer_sleep(2);
 
     puts("LSM303DLHC temperature test application\n");
     puts("Initializing LSM303DLHC sensor");
@@ -43,7 +44,7 @@ int main(void)
 
     while (1) {
         int16_t temp_value;
-        lsm303dlhc_3d_data_t mag_value;
+       // lsm303dlhc_3d_data_t mag_value;
         lsm303dlhc_3d_data_t acc_value;
 
         if (lsm303dlhc_read_acc(&dev, &acc_value) == 0) {
@@ -61,6 +62,7 @@ int main(void)
             puts("\nFailed reading value\n");
         }
 
+/*
         if (lsm303dlhc_read_mag(&dev, &mag_value) == 0) {
             printf("Magnetometer x: %i y: %i z: %i\n", mag_value.x_axis,
                                                        mag_value.y_axis,
@@ -69,7 +71,7 @@ int main(void)
         else {
             puts("\nFailed reading magnetometer values\n");
         }
-
+*/
         xtimer_usleep(SLEEP_USEC);
     }
 
